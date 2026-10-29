@@ -2,14 +2,14 @@
 
 ## 1. AI Tools Used
 
-AI assistants were used to:
-- Review and debug TypeScript code.
-- Refine the rules-based triage fallback.
-- Design and review test cases.
-- Explain Cloudflare Workers, Workers AI, and deployment behaviour.
-- Review API validation and triage routing.
+### ChatGPT
+Used during development to explain TypeScript errors, review code, debug issues, refine test cases, and troubleshoot Cloudflare deployment. Suggestions were checked against the code, tests, and live application before being accepted.
 
-The application uses Cloudflare Workers AI with `@cf/meta/llama-3.1-8b-instruct-fp8` to classify citizen reports.
+### Cloudflare Workers AI
+Integrated into the application using `@cf/meta/llama-3.1-8b-instruct-fp8` to classify citizen reports at runtime.
+
+### Rules-Based Classifier
+Implemented as a deterministic fallback when the AI classifier returns no usable result or throws an error. Its accuracy was evaluated separately from Workers AI.
 
 ## 2. Problems Found and Improvements Made
 
@@ -68,7 +68,15 @@ The 40-report dataset is limited and may not represent real-world reports. Furth
 A separate fallback helper keeps AI failure handling reusable and testable. The routing rules remain separate from the model so that priority thresholds and approval decisions are enforced by application logic rather than trusted to the model alone.
 
 The rules-based fallback was implemented explicitly so report triage can continue when Workers AI is unavailable or returns an unusable result.
-## 7. Local Environment Compatibility
+
+## 7. Work Implemented Directly
+
+I implemented and refined the application logic for classification fallback, triage routing, and report handling. I also ran the test suite, evaluated the rules-based classifier against the labelled dataset, and verified the deployed API.
+
+I kept routing decisions in application code rather than relying entirely on AI-generated output. This ensures that priority thresholds and human-review requirements are enforced consistently, even when AI output is uncertain or unavailable.
+
+
+## 8. Local Environment Compatibility
 
 Local Wrangler execution encountered a compatibility issue on the Ubuntu development environment. The installed `workerd` binary required GLIBC versions 2.32–2.35, which were unavailable on the system.
 
