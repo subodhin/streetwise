@@ -68,3 +68,12 @@ The 40-report dataset is limited and may not represent real-world reports. Furth
 A separate fallback helper keeps AI failure handling reusable and testable. The routing rules remain separate from the model so that priority thresholds and approval decisions are enforced by application logic rather than trusted to the model alone.
 
 The rules-based fallback was implemented explicitly so report triage can continue when Workers AI is unavailable or returns an unusable result.
+## 7. Local Environment Compatibility
+
+Local Wrangler execution encountered a compatibility issue on the Ubuntu development environment. The installed `workerd` binary required GLIBC versions 2.32–2.35, which were unavailable on the system.
+
+**Impact:** Running local D1 migrations with `--local` failed with a `write EPIPE` error followed by GLIBC compatibility errors.
+
+**How it was handled:** I checked the remote D1 migration status using `npx wrangler d1 migrations list streetwise-db --remote`. Wrangler reported that there were no migrations to apply. I also verified the deployed health endpoint and tested the live triage API separately.
+
+**Limitation:** Local execution using this `workerd` binary was not verified successfully on this Ubuntu environment. The compatibility issue was not fixed as part of this task; the deployed application was tested independently.
