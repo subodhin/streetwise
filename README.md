@@ -231,3 +231,136 @@ All of it, or the submission is not complete.
 - [Workers AI](https://developers.cloudflare.com/workers-ai/): The model, on your free Cloudflare account.
 - [D1](https://developers.cloudflare.com/d1/): The database.
 - [Workers](https://developers.cloudflare.com/workers/): The site and the API.
+
+---
+
+# Implementation Documentation
+
+## Live deployment
+
+- Frontend: https://streetwise-frontend.pages.dev
+- Backend: https://streetwise.streetwise-city.workers.dev
+- Health check: https://streetwise.streetwise-city.workers.dev/api/health
+
+## Stack
+
+React, TypeScript, Vite, MapLibre GL, Hono, Cloudflare Workers, D1, Workers AI and Vitest.
+
+## Local setup
+
+Requirements: Node.js and npm.
+
+    git clone https://github.com/subodhin/streetwise.git
+    cd streetwise
+    npm install
+    npm install --prefix frontend
+
+Authenticate with Cloudflare:
+
+    npx wrangler login
+
+Start the API:
+
+    npm run dev
+
+In a second terminal, start the frontend:
+
+    npm run dev --prefix frontend
+
+Set `VITE_API_URL` if the frontend needs a different API URL. Vite exposes variables prefixed with `VITE_` to browser code; do not put secrets in them.
+
+Configure `AUTH_SECRET` using Wrangler's supported local secrets mechanism. It must be at least 32 characters. Never commit it.
+
+**Local environment note:** Local Wrangler execution encountered a GLIBC compatibility error in `workerd` on the development machine. The deployed application was verified separately.
+
+## Database migrations
+
+List pending remote migrations:
+
+    npx wrangler d1 migrations list streetwise-db --remote
+
+Apply remote migrations:
+
+    npx wrangler d1 migrations apply streetwise-db --remote
+
+Use `--local` on a compatible environment for local D1 migrations.
+
+## Deployment
+
+Configure the authentication secret interactively:
+
+    npx wrangler secret put AUTH_SECRET
+
+Enter a strong random value of at least 32 characters when prompted.
+
+Deploy the Worker:
+
+    npm run deploy
+
+Build the frontend:
+
+    npm run build --prefix frontend
+
+Deploy `frontend/dist` to Cloudflare Pages. Configure the Pages build directory as `frontend`, build command as `npm run build`, output directory as `dist`, and `VITE_API_URL` as the deployed Worker URL. Rebuild and redeploy after changing the build-time API URL.
+
+## Tests
+
+Run the backend tests:
+
+    npm test
+
+Latest verified result: **25 tests passed across 5 test files**.
+
+## Measured classification accuracy
+
+Run:
+
+    npx tsx scripts/evaluate-accuracy.ts
+
+The evaluator compares `classifyWithRules()` against `data/labelled-reports.json`.
+
+| Metric | Correct | Total | Accuracy |
+|---|---:|---:|---:|
+| Type classification | 40 | 40 | 100.0% |
+| Priority classification | 40 | 40 | 100.0% |
+
+No mismatches were reported in the supplied 40-report dataset. These figures measure the rules-based classifier, not Workers AI model accuracy, and do not guarantee performance on unseen reports.
+
+## Additional edge-case limitations
+
+These three manually selected inputs were tested separately from the labelled dataset:
+
+1. **“A pothole beside a pile of dumped rubbish”** — actual result: `rubbish`, priority 2. The rubbish rule takes precedence over the road-damage rule, so mixed-category reports are not represented explicitly.
+2. **“The road is damaged and cars are swerving to avoid it”** — actual result: `not_relevant`, priority 1. The wording does not match the current road-damage keywords, so a potentially hazardous issue is missed.
+3. **“There is a dangerous obstruction on the street”** — actual result: `not_relevant`, priority 1. The generic wording does not match a supported issue category.
+
+These are additional edge-case probes, not failures from the 40 labelled reports. Confirm intended categories and priorities against the assessment rules before presenting them as formal misclassification examples.
+
+## Security
+
+- Keep `AUTH_SECRET` private and configure it through Wrangler secrets.
+- Never commit environment files, passwords or credentials.
+- Enforce authorization on the backend; frontend role checks alone are insufficient.
+- Use HTTPS for deployed application traffic.
+
+## Known limitations
+
+- Expand the labelled dataset with ambiguous and mixed-category reports.
+- Improve handling of reports containing multiple issues.
+- Test generic descriptions of dangerous obstructions.
+- Evaluate AI-assisted triage separately from rules-based classification.
+- Continue testing timeout, retry and fallback behaviour.
+- Verify dedicated staff and admin marking accounts before submission.
+
+## Assessment marking accounts
+
+Create dedicated accounts and test both before submission. Replace these placeholders with the assessment-only credentials in the submitted README. Do not use personal credentials or disclose production secrets.
+
+- Staff username: staff01@sw.com
+- Staff password: subodhi12345@D
+- Admin username: admin@sw.com
+- Admin password: subodhi12345@D
+
+## Source ZIP
+
+Create a source archive no larger than 25 MB. Exclude `node_modules`, `.wrangler`, build output, local environment files, credentials and other generated files. Inspect the archive before uploading it to the assessment page.
