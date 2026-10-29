@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Streetwise triage response",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "size",
+    "priority",
+    "zone",
+    "confidence",
+    "reason",
+    "route",
+    "triaged_by"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "pothole",
+        "street_light",
+        "flooding",
+        "rubbish",
+        "not_relevant"
+      ]
+    },
+    "size": {
+      "enum": [
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "zone": {
+      "enum": [
+        "Z-01",
+        "Z-02",
+        "Z-03",
+        "Z-04",
+        "Z-05",
+        "Z-06"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "route": {
+      "enum": [
+        "publish",
+        "needs_approval",
+        "reject"
+      ]
+    },
+    "triaged_by": {
+      "enum": [
+        "model",
+        "rules"
+      ]
+    }
+  }
+}

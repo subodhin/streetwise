@@ -1,0 +1,63 @@
+{
+  "city": "Colombo",
+  "map": {
+    "center": [
+      79.878,
+      6.906
+    ],
+    "zoom": 12.6,
+    "bounds": [
+      [
+        79.84,
+        6.865
+      ],
+      [
+        79.916,
+        6.946
+      ]
+    ]
+  },
+  "report_types": [
+    {
+      "key": "pothole",
+      "label": "Pothole"
+    },
+    {
+      "key": "street_light",
+      "label": "Street light"
+    },
+    {
+      "key": "flooding",
+      "label": "Flooding"
+    },
+    {
+      "key": "rubbish",
+      "label": "Rubbish"
+    },
+    {
+      "key": "not_relevant",
+      "label": "Not relevant"
+    }
+  ],
+  "sizes": [
+    "small",
+    "medium",
+    "large"
+  ],
+  "metrics": {
+    "open": "open reports",
+    "fixed_30d": "fixed in the last 30 days",
+    "fixed_total": "issues fixed, and counting"
+  },
+  "rules": {
+    "approval_priority_at_or_above": 4,
+    "approval_confidence_below": 0.7,
+    "reject_types": [
+      "not_relevant"
+    ]
+  },
+  "triage": {
+    "model_timeout_ms": 8000,
+    "model_retries": 1
+  }
+}

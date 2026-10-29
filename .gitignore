@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+*.pem
+
+# Cloudflare generated files
+.wrangler/
+.dev/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS and editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.save
+
+# Local production configuration
+frontend/.env.production
+
+# Password utility scripts and backups
+update-staff-password.mjs
+generate-password-hash.mjs
+test-password.ts
+*.save
+
+test-login.mjs

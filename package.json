@@ -1,0 +1,27 @@
+{
+  "name": "streetwise",
+  "version": "1.0.0",
+  "description": "Build a city maintenance map where citizens report problems, an AI sorts and prioritises each report under fixed rules, staff approve the hard cases, and the public watches the city get fixed, live. Alone, from an empty repository to a live Cloudflare deployment, in 96 hours.",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "hono": "^4.13.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261026.1",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.7",
+    "wrangler": "^4.152.0"
+  }
+}

@@ -1,0 +1,2 @@
+ALTER TABLE zones ADD COLUMN crew TEXT;
+ALTER TABLE zones ADD COLUMN status_date TEXT;

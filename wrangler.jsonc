@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "streetwise",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-26",
+  "vars": {
+    "APP_NAME": "Streetwise"
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "streetwise-db",
+      "database_id": "76dafec2-d27c-4cb9-a9d5-e0e410facdab"
+    }
+  ]
+}
