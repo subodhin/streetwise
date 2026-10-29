@@ -40,3 +40,4 @@ test-password.ts
 *.save
 
 test-login.mjs
+frontend/streetwise-frontend.zip

@@ -86,12 +86,14 @@ const app = new Hono<{
     user: AuthUser;
   };
 }>();
+
 app.use(
   "/api/*",
   cors({
     origin: [
       "http://localhost:5173",
       "https://streetwise.pages.dev",
+      "https://streetwise-frontend.pages.dev",
     ],
     allowMethods: ["GET", "POST", "PUT", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],

@@ -7,6 +7,7 @@ import FollowPage from "./pages/FollowPage";
 import ReportForm from "./pages/ReportForm";
 import StaffLogin from "./pages/StaffLogin";
 import StaffDashboard from "./pages/StaffDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const API_URL =
   import.meta.env.VITE_API_URL ||
@@ -34,6 +35,9 @@ function App() {
 }
 if (path === "/staff") {
   return <StaffDashboard />;
+}
+if (path === "/admin") {
+  return <AdminDashboard />;
 }
 
   if (path.startsWith("/follow/")) {

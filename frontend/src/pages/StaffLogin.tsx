@@ -40,7 +40,7 @@ export default function StaffLogin() {
       sessionStorage.setItem("streetwise_token", data.token);
       sessionStorage.setItem("streetwise_user", JSON.stringify(data.user));
 
-      window.location.href = "/staff";
+window.location.href = data.user.role === "admin" ? "/admin" : "/staff";
     } catch (err) {
       setError(
         err instanceof Error
