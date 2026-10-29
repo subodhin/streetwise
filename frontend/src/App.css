@@ -296,6 +296,10 @@
 .priority-marker-5 {
   background: #fb7185;
 }
+
+.maplibregl-popup {
+  z-index: 20;
+}
 .maplibregl-popup-content {
   max-width: 240px;
   padding: 12px 14px;
