@@ -1,4 +1,4 @@
-# Streetwise — City Issue Reporting and Triage
+# Streetwise - City Issue Reporting and Triage
 
 Streetwise is a web application for reporting and tracking city issues in Colombo. It provides a public map, automated report triage, a staff review queue, and an admin dashboard for managing zones and settings.
 
